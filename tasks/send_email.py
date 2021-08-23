@@ -1,3 +1,4 @@
+import pytz
 from celery import shared_task
 from authentication.models.user_model import UserModel
 from django.core.mail import send_mail
@@ -10,7 +11,9 @@ from twitter.models import ContactModel
 @shared_task
 def send_mail_task():
     users = UserModel.objects.all()
-    mid = datetime.combine(datetime.today(), time.min)
+    # convert mid from naive offset to aware offset with set tehran time zone
+    teh_tz = pytz.timezone('Asia/Tehran')
+    mid = datetime.combine(datetime.today(), time.min).astimezone(teh_tz)
     for user in users:
         new_connection = ContactModel.objects.filter(time_stamp__gt=mid).filter(following_user_id=user).count()
         tweets = user.tweet.filter(time_stamp__gt=mid)
