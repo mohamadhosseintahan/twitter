@@ -3,6 +3,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from authentication.models.user_model import UserModel
+from authentication.serializers.user_serializer import UserSerializer
 
 
 class RegisterUserAPIView(generics.CreateAPIView):
@@ -19,21 +20,14 @@ class RegisterUserAPIView(generics.CreateAPIView):
         :param email , password , username
         :return:
                 200 register successfully
-                400 user did not entered email and password
-                404 user already exists
-        """
-        email = request.data['email']
-        password = request.data['password']
-        username = request.data['username']
+                400 user did not entered email and password or already exists
 
-        if email and password and username:
-            try:
-                user = UserModel.objects.create_user(email=email, password=password, username=username)
-                user.save()
-                return Response({'response': f'user with this email created-{email}', 'status': 200},
-                                status=status.HTTP_200_OK)
-            except:
-                return Response({'response': 'user with this email or username already exists', 'status': 404},
-                                status=status.HTTP_200_OK)
-        return Response({'response': 'user did not entered credential', 'status': 400},
-                        status=status.HTTP_200_OK)
+        """
+        data_ser = UserSerializer(data=request.data)
+        if data_ser.is_valid():
+            print(data_ser.data)
+            user = UserModel.objects.create_user(email=data_ser.data['email'], password=data_ser.data['password'],
+                                                 username=data_ser.data['username'])
+            return Response({'response': f'user with this email created-{data_ser["email"]}', 'status': 200},
+                            status=status.HTTP_200_OK)
+        return Response({'response': data_ser.errors, 'status': 400}, status=status.HTTP_200_OK)
