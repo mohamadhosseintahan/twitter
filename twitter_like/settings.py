@@ -153,3 +153,9 @@ ELASTICSEARCH_DSL = {
         'hosts': 'elasticsearch:9200'
     },
 }
+
+# celery settings
+CELERY_broker_url = 'redis://127.0.0.1'
+accept_content = ['json']
+task_serializer = 'json'
+result_serializer = 'json'
