@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Third - party
     'rest_framework',
+    'django_elasticsearch_dsl',
     # local
     'authentication.apps.AuthenticationConfig',
     'twitter.apps.TwitterConfig',
@@ -145,3 +146,10 @@ REST_FRAMEWORK = {
 }
 
 AUTH_USER_MODEL = 'authentication.UserModel'
+
+# elasticsearch settings
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'elasticsearch:9200'
+    },
+}
