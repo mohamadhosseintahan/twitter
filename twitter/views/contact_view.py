@@ -26,14 +26,16 @@ class FollowAPIView(generics.CreateAPIView):
         # try to retrieve user
         try:
             user_to = UserModel.objects.get(id=user_to_id)
-        except:
+        except UserModel.DoesNotExist:
             return Response({'response': 'there isn\'t any user with this id', 'status': 404},
                             status=status.HTTP_200_OK)
         # check the connection
         try:
+            # delete connection or unfollow
             contact = ContactModel.objects.get(user_id=user_from, following_user_id=user_to)
             contact.delete()
             return Response({'response': 'user unfollowed', 'status': 201}, status=status.HTTP_200_OK)
-        except:
+        except ContactModel.DoesNotExist:
+            # create connection or follow
             ContactModel.objects.create(user_id=user_from, following_user_id=user_to)
             return Response({"response": 'user followed', 'status': 200}, status=status.HTTP_200_OK)
