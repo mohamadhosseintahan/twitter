@@ -8,6 +8,8 @@
 pipenv install -r requirements.txt
 ```
 The following command might be encounter with error in windows.
+
+
 then:
 ```
 python manage.py runserver [-p] 
