@@ -3,10 +3,10 @@ from authentication.models.user_model import UserModel
 from django.core.mail import send_mail
 from datetime import datetime, time
 
-#  it should be scheduled by django_celery_beat in 23:59
 from twitter.models import ContactModel
 
 
+#  it should be scheduled by django_celery_beat in 23:59
 @shared_task
 def send_mail_task():
     users = UserModel.objects.all()
