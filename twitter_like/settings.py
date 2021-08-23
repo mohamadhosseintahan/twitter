@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     # Third - party
     'rest_framework',
     'django_elasticsearch_dsl',
+    'django_celery_beat',
     # local
     'authentication.apps.AuthenticationConfig',
     'twitter.apps.TwitterConfig',

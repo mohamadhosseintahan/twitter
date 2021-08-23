@@ -3,20 +3,24 @@ from authentication.models.user_model import UserModel
 from django.core.mail import send_mail
 from datetime import datetime, time
 
+#  it should be scheduled by django_celery_beat in 23:59
+from twitter.models import ContactModel
+
 
 @shared_task
 def send_mail_task():
     users = UserModel.objects.all()
     mid = datetime.combine(datetime.today(), time.min)
     for user in users:
-        tweets = user.tweet.filter(create_time__gt=mid)
+        new_connection = ContactModel.objects.filter(time_stamp__gt=mid).filter(following_user_id=user).count()
+        tweets = user.tweet.filter(time_stamp__gt=mid)
         like_count = 0
         for tweet in tweets:
             like_count += tweet.user_liked.count()
 
         send_mail(
             subject='Daily Report',
-            message=f'you have {like_count}-likes and {like_count} - new followers',
+            message=f'you have {like_count}-likes and {new_connection} - new followers',
             from_email='',
             recipient_list=[user.email, ]
         )
