@@ -1,7 +1,7 @@
 # twitter
 ### This is a twitter like app back end that developed by django and djangorestframework
 
-###We used celery for async tasks like sending email to users for daily report and also we used elasticsearch for indexing tweets.
+### We used celery for async tasks like sending email to users for daily report and also we used elasticsearch for indexing tweets.
 
 ## how to run
 ```
