@@ -14,5 +14,5 @@ class TweetSerializer(serializers.ModelSerializer):
         fields = (
             'author',
             'text',
-            'time-stamp',
+            'time_stamp',
         )
