@@ -9,7 +9,7 @@ def send_mail_task():
     users = UserModel.objects.all()
     mid = datetime.combine(datetime.today(), time.min)
     for user in users:
-        tweets = user.tweet.filter(create_time__gt=min)
+        tweets = user.tweet.filter(create_time__gt=mid)
         like_count = 0
         for tweet in tweets:
             like_count += tweet.user_liked.count()
